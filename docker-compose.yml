@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: ./app/backend
+    ports:
+      - 8000:8000
+    environment:
+      - LISTEN_PORT=8000
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+    volumes:
+      - ./app/backend:/backend_app
+  frontend:
+    build: ./app/frontend
+    ports:
+      - 3000:3000
+    environment:
+      - BACKEND_HOSTNAME=backend:8000
+    volumes:
+      - ./app/frontend:/frontend_app
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
